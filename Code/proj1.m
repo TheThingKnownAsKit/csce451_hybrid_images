@@ -37,7 +37,8 @@ filter = fspecial('Gaussian', cutoff_frequency*4+1, cutoff_frequency);
 % blur that works best will vary with different image pairs
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%low_frequencies = 
+blur_filter_1 = fspecial('Gaussian', [15 15], 15);
+low_frequencies = my_imfilter(image1, blur_filter_1); % Dog
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Remove the low frequencies from image2. The easiest way to do this is to
@@ -45,13 +46,15 @@ filter = fspecial('Gaussian', cutoff_frequency*4+1, cutoff_frequency);
 % This will give you an image centered at zero with negative values.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%high_frequencies = 
+blur_filter_2 = fspecial('Gaussian', [15 15], 15);
+blurred_image2 = my_imfilter(image2, blur_filter_2);
+high_frequencies = image2 - blurred_image2; % Cat
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Combine the high frequencies and low frequencies
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%hybrid_image = 
+hybrid_image = low_frequencies + high_frequencies;
 
 %% Visualize and save outputs
 figure(1); imshow(low_frequencies)
