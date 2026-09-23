@@ -20,12 +20,15 @@ image2 = im2single(imread('../data/cat.bmp'));
 % you asign as image2 (which will provide the high frequencies)
 
 %% Filtering and Hybrid Image construction
-cutoff_frequency = 7; %This is the standard deviation, in pixels, of the 
+cutoff_frequency_1 = 7;
+cutoff_frequency_2 = 7;
+%This is the standard deviation, in pixels, of the 
 % Gaussian blur that will remove the high frequencies from one image and 
 % remove the low frequencies from another image (by subtracting a blurred
 % version from the original version). You will want to tune this for every
 % image pair to get the best results.
-filter = fspecial('Gaussian', cutoff_frequency*4+1, cutoff_frequency);
+filter_1 = fspecial('Gaussian', cutoff_frequency_1*4+1, cutoff_frequency_1);
+filter_2 = fspecial('Gaussian', cutoff_frequency_2*4+1, cutoff_frequency_2);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % YOUR CODE BELOW. Use my_imfilter create 'low_frequencies' and
@@ -37,8 +40,7 @@ filter = fspecial('Gaussian', cutoff_frequency*4+1, cutoff_frequency);
 % blur that works best will vary with different image pairs
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-blur_filter_1 = fspecial('Gaussian', [15 15], 15);
-low_frequencies = my_imfilter(image1, blur_filter_1); % Dog
+low_frequencies = my_imfilter(image1, filter_1);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Remove the low frequencies from image2. The easiest way to do this is to
@@ -46,9 +48,8 @@ low_frequencies = my_imfilter(image1, blur_filter_1); % Dog
 % This will give you an image centered at zero with negative values.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-blur_filter_2 = fspecial('Gaussian', [15 15], 15);
-blurred_image2 = my_imfilter(image2, blur_filter_2);
-high_frequencies = image2 - blurred_image2; % Cat
+blurred_image2 = my_imfilter(image2, filter_2);
+high_frequencies = image2 - blurred_image2;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Combine the high frequencies and low frequencies
